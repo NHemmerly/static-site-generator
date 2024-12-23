@@ -7,6 +7,7 @@ class TextType(Enum):
     LINK = "link"
     CODE = "code"
     IMAGE = "image"
+    TEXT = "text"
 
 class TextNode():
     def __init__(self, text, text_type, url=None):
@@ -18,10 +19,8 @@ class TextNode():
         same_text = self.text == other.text
         same_text_type = self.text_type == other.text_type
         same_url = self.url == other.url
-        if (same_text and same_text_type and same_url):
-            return True
-        else:
-            raise Exception("TextNodes not equal")
+        return same_text and same_text_type and same_url
+
         
     def __repr__(self):
         return f"TextNode({self.text}, {self.text_type.value}, {self.url})"

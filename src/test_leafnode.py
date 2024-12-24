@@ -23,7 +23,7 @@ class TestLeafNode(unittest.TestCase):
 
     def test_html_render(self):
         node = LeafNode("a", "Test html", {"href": "test.com"})
-        self.assertEqual(node.to_html(), '<a href="test.com"> Test html </a>')
+        self.assertEqual(node.to_html(), '<a href="test.com">Test html</a>')
 
 
 if __name__ == "__main__":

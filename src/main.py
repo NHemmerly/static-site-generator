@@ -1,5 +1,6 @@
 from textnode import TextNode, TextType
 from htmlnode import HTMLNode, LeafNode, ParentNode
+from node_split import node_delimiter_split
 
 
 def text_node_to_html_node(text_node):
@@ -22,6 +23,9 @@ def text_node_to_html_node(text_node):
 def main():
     print("Hello SSG")
     first_node = TextNode("This is my first node", TextType.BOLD, "http://localhost:8888")
+    node = TextNode("This is text with a `code block` word", TextType.TEXT)
+    new_nodes = node_delimiter_split([node], "`", TextType.CODE)
+    print(new_nodes)
     print(first_node)
 
 if __name__ == "__main__":

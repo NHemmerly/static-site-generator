@@ -1,6 +1,6 @@
 from textnode import TextNode, TextType
 from htmlnode import HTMLNode, LeafNode, ParentNode
-from node_split import node_delimiter_split, split_nodes_image
+from node_split import node_delimiter_split, split_nodes_image, split_nodes_link, text_to_textnodes
 from extract_markdown import extract_markdown_images, extract_markdown_links
 
 
@@ -23,11 +23,6 @@ def text_node_to_html_node(text_node):
 
 def main():
     print("Hello SSG")
-    node = TextNode(
-        "This is text with a link ![to boot dev](https://www.boot.dev) and ![to youtube](https://www.youtube.com/@bootdotdev)",
-        TextType.TEXT,
-    )
-    split_nodes_image([node])
-
+    
 if __name__ == "__main__":
     main()

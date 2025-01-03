@@ -23,6 +23,7 @@ def text_node_to_html_node(text_node):
 
 def main():
     print("Hello SSG")
-    
+    text = "This is **text** with an *italic* word and a `code block`"
+    print(text_to_textnodes(text))
 if __name__ == "__main__":
     main()

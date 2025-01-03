@@ -109,6 +109,40 @@ class TestNodeSplit(unittest.TestCase):
         ]
         self.assertEqual(test, text_to_textnodes(text))
 
+    def text_to_node_image_front(self):
+        text = "![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) This is **text** with an *italic* word and a `code block` and a [link](https://boot.dev)"
+        test = [
+            TextNode("obi wan image", TextType.IMAGE, "https://i.imgur.com/fJRm4Vk.jpeg"),
+            TextNode("This is ", TextType.TEXT),
+            TextNode("text", TextType.BOLD),
+            TextNode(" with an ", TextType.TEXT),
+            TextNode("italic", TextType.ITALIC),
+            TextNode(" word and a ", TextType.TEXT),
+            TextNode("code block", TextType.CODE),
+            TextNode(" and a ", TextType.TEXT),
+            TextNode("link", TextType.LINK, "https://boot.dev"),
+        ]
+        self.assertEqual(test, text_to_textnodes(text))
+
+    def test_single_element(self):
+        text = "![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg)"
+        test = [
+            TextNode("obi wan image", TextType.IMAGE, "https://i.imgur.com/fJRm4Vk.jpeg"),
+        ]
+        self.assertEqual(test, text_to_textnodes(text))
+
+    def test_non_image_links(self):
+        text = "This is **text** with an *italic* word and a `code block`"
+        test = [
+            TextNode("This is ", TextType.TEXT),
+            TextNode("text", TextType.BOLD),
+            TextNode(" with an ", TextType.TEXT),
+            TextNode("italic", TextType.ITALIC),
+            TextNode(" word and a ", TextType.TEXT),
+            TextNode("code block", TextType.CODE),
+        ]
+        self.assertEqual(test, text_to_textnodes(text))
+
 
 if __name__ == "__main__":
     unittest.main()

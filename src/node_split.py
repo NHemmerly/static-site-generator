@@ -22,16 +22,15 @@ def node_delimiter_split(node_list, delim, type):
 
 def split_nodes_image(old_nodes):
     new_nodes = []
-    text = ""
     for node in old_nodes:
-        if node.text_type == TextType.TEXT:
-            text = node.text
-        else: 
+        if node.text_type != TextType.TEXT:
             new_nodes.append(node)
             continue
+        text = node.text
         images = extract_markdown_images(text)
         if len(images) == 0:
             new_nodes.append(node)
+            continue
         for image in images:
             substring = f"![{image[0]}]({image[1]})"
             sections = text.split(substring, 1)
@@ -73,9 +72,18 @@ def text_to_textnodes(text):
     old_nodes = [TextNode(text, TextType.TEXT)]
     out_nodes = []
     out_nodes = (split_nodes_link(old_nodes))
+    print("After linnk split: ", out_nodes)
     out_nodes = (split_nodes_image(out_nodes))
+    print("After linnk split: ", out_nodes)
+
     out_nodes = (node_delimiter_split(out_nodes, '`', TextType.CODE))
+    print("After linnk split: ", out_nodes)
+
     out_nodes = (node_delimiter_split(out_nodes, '**', TextType.BOLD))
+    print("After linnk split: ", out_nodes)
+
     out_nodes = (node_delimiter_split(out_nodes, '*', TextType.ITALIC))
+    print("After linnk split: ", out_nodes)
+
     
     return out_nodes

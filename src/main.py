@@ -25,9 +25,9 @@ def text_node_to_html_node(text_node):
 def main():
     print("Hello SSG")
     text = """# This is a heading\n\nThis is a paragraph of text. It has some **bold** and *italic* words inside of it.\n\n* This is the first list item in a list block\n* This is a list item* This is another list item"""
-    test = "# This is a test"
+    test = "1. s is a test\n2. testing\n4. still testing"
     blocks = markdown_to_blocks(text)
     print(blocks[0])
-    print(block_to_block_type(blocks[1]))
+    print(block_to_block_type(test))
 if __name__ == "__main__":
     main()

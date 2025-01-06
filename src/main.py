@@ -2,7 +2,7 @@ from textnode import TextNode, TextType
 from htmlnode import HTMLNode, LeafNode, ParentNode
 from node_split import node_delimiter_split, split_nodes_image, split_nodes_link, text_to_textnodes
 from extract_markdown import extract_markdown_images, extract_markdown_links
-from block_markdown import markdown_to_blocks
+from block_markdown import markdown_to_blocks, block_to_block_type
 
 
 def text_node_to_html_node(text_node):
@@ -24,13 +24,10 @@ def text_node_to_html_node(text_node):
 
 def main():
     print("Hello SSG")
-    markdown = """# This is a heading
-    
-    This is a paragraph of text. It has some **bold** and *italic* words inside of it.
-
-    * This is the first list item in a list block
-    * This is a list item
-    * This is another list item"""
-    print(markdown_to_blocks(markdown))
+    text = """# This is a heading\n\nThis is a paragraph of text. It has some **bold** and *italic* words inside of it.\n\n* This is the first list item in a list block\n* This is a list item* This is another list item"""
+    test = "# This is a test"
+    blocks = markdown_to_blocks(text)
+    print(blocks[0])
+    print(block_to_block_type(blocks[1]))
 if __name__ == "__main__":
     main()

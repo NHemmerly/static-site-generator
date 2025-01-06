@@ -72,18 +72,10 @@ def text_to_textnodes(text):
     old_nodes = [TextNode(text, TextType.TEXT)]
     out_nodes = []
     out_nodes = (split_nodes_link(old_nodes))
-    print("After linnk split: ", out_nodes)
     out_nodes = (split_nodes_image(out_nodes))
-    print("After linnk split: ", out_nodes)
-
     out_nodes = (node_delimiter_split(out_nodes, '`', TextType.CODE))
-    print("After linnk split: ", out_nodes)
-
     out_nodes = (node_delimiter_split(out_nodes, '**', TextType.BOLD))
-    print("After linnk split: ", out_nodes)
-
     out_nodes = (node_delimiter_split(out_nodes, '*', TextType.ITALIC))
-    print("After linnk split: ", out_nodes)
 
     
     return out_nodes

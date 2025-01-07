@@ -1,6 +1,6 @@
 import unittest
 
-from main import text_node_to_html_node
+from block_markdown import text_node_to_html_node
 from textnode import TextNode, TextType
 from htmlnode import HTMLNode, LeafNode, ParentNode
 

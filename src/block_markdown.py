@@ -1,5 +1,6 @@
 import re
 from functools import reduce
+from htmlnode import HTMLNode, LeafNode, ParentNode
 
 def is_ordered_list(lines):
     i = 1
@@ -45,3 +46,21 @@ def block_to_block_type(block):
         return "Ordered List"
     else:
         return "Paragraph"
+
+def create_node_type(node, type):
+    match (type):
+        case "Heading":
+            num = len(re.match(r"^#{1,6}",node).group())
+            return LeafNode(f"h{num}", node.split(" ", 1)[1].lstrip())
+        case "Quote":
+            return LeafNode("blockquote", re.sub(r">\s+", "", node))
+        case "Unordered List":
+            
+
+def markdown_to_html_node(markdown):
+    blocks = markdown_to_blocks(markdown)
+    nodes = []
+    for block in blocks:
+        print(block_to_block_type(block))
+        nodes.append(create_node_type(block, block_to_block_type(block)))
+    return nodes

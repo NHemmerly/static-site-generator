@@ -80,29 +80,34 @@ def create_node_type(node, type):
             children = textnode_child(node.split(" ", 1)[1].lstrip())
             return ParentNode(f"h{num}", children)
         case "Quote":
-            return LeafNode("blockquote", re.sub(r">\s+", "", node))
+            text = re.sub(r">\s+", "", node)
+            children = textnode_child(text)
+            return ParentNode("blockquote", children)
         case "Unordered List":
             unordered_list = ParentNode("ul", [])
             for bullet in node.split("\n"):
-                unordered_list.children.append(LeafNode("li",re.sub(r"^\*\s+|^-\s+","",bullet)))
+                bullet_text_children = textnode_child(re.sub(r"^\*\s+|^-\s+","",bullet))
+                unordered_list.children.append(ParentNode("li", bullet_text_children))
             return unordered_list
         case "Ordered List":
             ordered_list = ParentNode("ol", [])
             for num in node.split("\n"):
-                ordered_list.children.append(LeafNode("li",re.sub(r"^[0-9]+\.\s+","",num)))
+                num_text_children = textnode_child(re.sub(r"^[0-9]+\.\s+","",num))
+                ordered_list.children.append(ParentNode("li", num_text_children))
             return ordered_list
         case "Code":
             pre = ParentNode("pre", [])
             pre.children.append(LeafNode("code", node.strip("`")))
             return pre
         case _:
-            return LeafNode("p", node)
+            text = textnode_child(node)
+            return ParentNode("p", text)
                 
 
 def markdown_to_html_node(markdown):
     blocks = markdown_to_blocks(markdown)
     nodes = []
     for block in blocks:
-        print(block_to_block_type(block))
         nodes.append(create_node_type(block, block_to_block_type(block)))
-    return nodes
+    div = ParentNode("div", nodes)
+    return div

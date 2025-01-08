@@ -1,5 +1,6 @@
 import unittest
-from block_markdown import markdown_to_blocks, block_to_block_type
+from block_markdown import markdown_to_blocks, block_to_block_type, markdown_to_html_node
+from htmlnode import ParentNode, LeafNode
 
 class TestBlockMarkdown(unittest.TestCase):
     def test_out(self):
@@ -32,6 +33,40 @@ class TestBlockMarkdown(unittest.TestCase):
     def test_paragraph(self):
         text = "This is just a plain old paragraph"
         self.assertEqual("Paragraph", block_to_block_type(text));
+
+    # Testing for markdown_to_html_node function
+    def test_html_out(self):
+        text = """# Header
+
+Paragraph
+
+- List item
+- List item
+
+[link](link.com)
+
+![image](image.com)
+
+*italics*
+
+**bold**
+"""
+        test = ParentNode("div", [ParentNode("h1", [LeafNode(None, "Header")]),
+                                        ParentNode("p", [LeafNode(None, "Paragraph")]),
+                                        ParentNode("ul", [ParentNode("li", [LeafNode(None, "List item")]),
+                                                                ParentNode("li", [LeafNode(None, "List item")])]),
+                                                                ParentNode("p", [LeafNode("a", "link",  {"href":"link.com"})]),
+                                                                ParentNode("p", [LeafNode("img", "", {"src":"image.com", "alt":"image"})]),
+                                                                ParentNode("p", [LeafNode("i", "italics")]), ParentNode("p", [LeafNode("b", "bold")])])
+        self.assertEqual(markdown_to_html_node(text), test)
+
+    def test_children_text(self):
+        text = """This is a paragraph with *italics* and **Bold**"""
+        test = ParentNode("div", [ParentNode("p", [LeafNode(None, "This is a paragraph with "),
+                                LeafNode("i", "italics"),
+                                LeafNode(None, " and "),
+                                LeafNode("b", "Bold")])])
+        self.assertEqual(test, markdown_to_html_node(text))
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,4 +1,5 @@
 import os
+import shutil
 
 def check_path():
     public = os.path.exists("public/")
@@ -13,14 +14,29 @@ def check_path():
         print("Static directory not detected, creating...")
         os.mkdir("static/")
 
-def public_empty():
+def path_empty(path):
     if not os.listdir("public"):
-        print("Public empty")
+        print(f"{path} empty")
         return True
-    
-    
+    if os.listdir(f"{path}/{os.listdir(path)[0]}"):
+        shutil.rmtree(f"{path}/{os.listdir(path)[0]}")
+    print(f"Removing {path}/{os.listdir(path)[0]}")
+    os.remove(f"{path}/{os.listdir(path)[0]}")
+    path_empty(path)
 
+def copy_dir(src, dst):
+    src_dir = os.listdir(src)
+    if len(os.listdir(src)) == 0:
+        return True
+    if os.path.isdir(f"{src}/{src_dir[0]}"):
+        os.mkdir(f"{dst}/{src_dir[0]}")
+        dst = f"{dst}/{src_dir[0]}"
+        copy_dir(f"{src}/{src_dir[0]}", dst)
+    shutil.copy(f"{src}/{src_dir[0]}", dst)
+    # You stopped here: src is a string doofus
+    copy_dir(src[1:], dst)
 
 def static_to_public():
     check_path()
-    public_empty()
+    path_empty("public")
+    copy_dir("static", "public")

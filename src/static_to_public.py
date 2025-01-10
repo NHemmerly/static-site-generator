@@ -18,24 +18,27 @@ def path_empty(path):
     if not os.listdir("public"):
         print(f"{path} empty")
         return True
-    if os.listdir(f"{path}/{os.listdir(path)[0]}"):
-        shutil.rmtree(f"{path}/{os.listdir(path)[0]}")
-        return True
-    print(f"Removing {path}/{os.listdir(path)[0]}")
-    os.remove(f"{path}/{os.listdir(path)[0]}")
-    path_empty(path)
+    for file in os.listdir(path):
+        if os.path.isdir(f"{path}/{os.listdir(path)[0]}"):
+            shutil.rmtree(f"{path}/{os.listdir(path)[0]}")
+            continue
+        os.remove(os.path.join(path, file))
 
 def copy_dir(src, dst):
-    src_dir = os.listdir(src)
-    if len(os.listdir(src)) == 0:
+    if not os.path.isdir(src):
+        print(f"Copying {src} to {dst}")
+        shutil.copy(src, dst)
         return True
-    if os.path.isdir(f"{src}/{src_dir[0]}"):
-        os.mkdir(f"{dst}/{src_dir[0]}")
-        dst = f"{dst}/{src_dir[0]}"
-        copy_dir(f"{src}/{src_dir[0]}", dst)
-    shutil.copy(f"{src}/{src_dir[0]}", dst)
-    # You stopped here: src is a string doofus
-    #copy_dir(f"{src}/{os.listdir(src)[1:][0]}", dst)
+    for file in os.listdir(src):
+        new_file = os.path.join(src,file)
+        if os.path.isdir(new_file):
+            new_dst = os.path.join(dst, file)
+            os.mkdir(new_dst)
+            print(f"Copying {new_file} to {new_dst}")
+            copy_dir(new_file, new_dst)
+            continue
+        print(f"Copying {new_file} to {dst}")
+        shutil.copy(new_file, dst)
 
 def static_to_public():
     check_path()

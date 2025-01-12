@@ -1,5 +1,5 @@
 import unittest
-from block_markdown import markdown_to_blocks, block_to_block_type, markdown_to_html_node
+from block_markdown import markdown_to_blocks, block_to_block_type, markdown_to_html_node, extract_title
 from htmlnode import ParentNode, LeafNode
 
 class TestBlockMarkdown(unittest.TestCase):
@@ -67,6 +67,15 @@ Paragraph
                                 LeafNode(None, " and "),
                                 LeafNode("b", "Bold")])])
         self.assertEqual(test, markdown_to_html_node(text))
+
+    def test_extract_title(self):
+        text = "# test\n\nThat was a test"
+        self.assertEqual(extract_title(text), "test")
+
+    def test_extract_title_fail(self):
+        text = "- test\n- test\n- test2\n\ntexas"
+        with self.assertRaises(Exception):
+            extract_title(text)
 
 if __name__ == "__main__":
     unittest.main()

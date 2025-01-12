@@ -111,3 +111,12 @@ def markdown_to_html_node(markdown):
         nodes.append(create_node_type(block, block_to_block_type(block)))
     div = ParentNode("div", nodes)
     return div
+
+def extract_title(markdown):
+    lines = markdown.split('\n')
+    pattern = r"^#\s+.+$"
+    for line in lines:
+        if re.search(pattern, line):
+            header = re.search(pattern, line).group()
+            return header.lstrip("#").lstrip()
+    raise Exception("No header found")

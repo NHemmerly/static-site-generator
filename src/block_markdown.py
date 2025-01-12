@@ -32,7 +32,6 @@ def text_node_to_html_node(text_node):
         case _:
             raise Exception("Text type not recognized")
 
-
 def markdown_to_blocks(markdown):
     out_list = markdown.split("\n\n")
     new_list = []
@@ -103,7 +102,6 @@ def create_node_type(node, type):
             text = textnode_child(node)
             return ParentNode("p", text)
                 
-
 def markdown_to_html_node(markdown):
     blocks = markdown_to_blocks(markdown)
     nodes = []
